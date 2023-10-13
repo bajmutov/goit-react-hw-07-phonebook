@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { fetchContactsThunk } from 'redux/operations';
 import { selectError, selectIsLoading } from 'redux/selectors';
 import { ToastContainer } from 'react-toastify';
+import Spinner from './Spinner/Spinner';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const App = () => {
       <ContactForm />
       <h2>Contacts</h2>
       <Filter />
-      {isLoading && !error && <b>Request in progress...</b>}
+      {/* {isLoading && !error && <Spinner size={56} />} */}
       {error && <b>Error!</b>}
       <ContactList />
     </div>
