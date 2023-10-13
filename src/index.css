@@ -33,6 +33,7 @@ h6 {
 
 button {
   display: inline-block;
+  margin-right: 50px;
   /* margin-left: 20px; */
   box-shadow: 5px 5px 2px 1px rgba(0, 0, 255, 0.2);
 }
