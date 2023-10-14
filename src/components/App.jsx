@@ -28,8 +28,8 @@ const App = () => {
       <ContactForm />
       <h2>Contacts</h2>
       <Filter />
-      {/* {isLoading && !error && <Spinner size={56} />} */}
-      {error && <b>Error!</b>}
+      {isLoading && !error && <Spinner size={150} />}
+      {error && <b>Error! Reload the page</b>}
       <ContactList />
     </div>
   );

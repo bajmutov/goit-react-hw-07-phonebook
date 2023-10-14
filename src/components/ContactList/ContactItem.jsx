@@ -4,18 +4,18 @@ import { selectIsLoading } from 'redux/selectors';
 
 const ContactItem = ({ id, name, phone }) => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsLoading);
+  const isDeleting = useSelector(selectIsLoading);
 
   return (
-    <li key={id} className="contactItem">
+    <li className="contactItem">
       {name}: {phone}
       <button
         type="button"
         className="btn btn-secondary"
         onClick={() => dispatch(deleteContact(id))}
-        disabled={isLoading}
+        disabled={isDeleting}
       >
-        {isLoading ? 'Deleting...' : 'Delete'}
+        Delete
       </button>
     </li>
   );

@@ -1,26 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { handlePending, handleRejected } from './helpers';
 import { addContact, deleteContact, fetchContactsThunk } from './operations';
-
-export const initialState = {
-  items: [],
-  isLoading: false,
-  error: null,
-};
-
-const handlePending = state => {
-  state.isLoading = true;
-};
-
-const handleRejected = (state, action) => {
-  state.isLoading = false;
-  state.error = action.payload;
-};
-
-const handleFulfilled = (state, { payload }) => {
-  state.isLoading = false;
-  state.error = null;
-  state.items = payload;
-};
+import { initialState } from '../components/initialState';
 
 const contactsSlice = createSlice({
   name: 'contacts',
@@ -28,13 +9,17 @@ const contactsSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchContactsThunk.pending, handlePending)
-      .addCase(fetchContactsThunk.fulfilled, handleFulfilled)
+      .addCase(fetchContactsThunk.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.error = null;
+        state.items = payload;
+      })
       .addCase(fetchContactsThunk.rejected, handleRejected)
       .addCase(addContact.pending, handlePending)
       .addCase(addContact.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        state.items.push(action.payload);
+        state.items.unshift(action.payload);
       })
       .addCase(addContact.rejected, handleRejected)
       .addCase(deleteContact.pending, handlePending)
@@ -47,27 +32,7 @@ const contactsSlice = createSlice({
         state.items.splice(index, 1);
       })
       .addCase(deleteContact.rejected, handleRejected);
-    // .addMatcher(isAnyOf(...fn(defaultStatus.pending)), handlePending)
-    // .addMatcher(isAnyOf(...fn(defaultStatus.fulfilled)), handleFulfilled)
-    // .addMatcher(isAnyOf(...fn(defaultStatus.rejected)), handleRejected);
   },
-  // reducers: {
-  //   addContact: {
-  //     reducer(state, action) {
-  //       state.items.push(action.payload);
-  //     },
-  //     prepare(name, number) {
-  //       return {
-  //         payload: { id: nanoid(), name, number },
-  //       };
-  //     },
-  //   },
-  //   deleteContact(state, action) {
-  //     state.items = state.items.filter(
-  //       contact => contact.id !== action.payload
-  //     );
-  //   },
-  // },
 });
 
 export const contactsReducer = contactsSlice.reducer;
